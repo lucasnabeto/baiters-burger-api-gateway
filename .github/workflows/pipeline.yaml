@@ -36,6 +36,13 @@ jobs:
           aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
           aws-region: us-east-1
 
+      - name: Replace placeholders in terraform.tfvars
+        run: |
+          sed -i 's|PROJECT_NAME_PLACEHOLDER|${{ secrets.PROJECT_NAME }}|g' ./terraform.tfvars
+          sed -i 's|PROJECT_VPC_ID_PLACEHOLDER|${{ secrets.PROJECT_VPC_ID }}|g' ./terraform.tfvars
+          sed -i 's|PROJECT_NLB_ARN_PLACEHOLDER|${{ secrets.PROJECT_NLB_ARN }}|g' ./terraform.tfvars
+          sed -i 's|PROJECT_NLB_DNS_NAME_PLACEHOLDER|${{ secrets.PROJECT_NLB_DNS_NAME }}|g' ./terraform.tfvars
+
       - name: Add Terraform
         uses: hashicorp/setup-terraform@v3
 
